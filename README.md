@@ -1,6 +1,6 @@
-# Spatial Dynamics of Tumor Evolution Using Coalescent Theory
+# A coalescent-spatial model to uncover the architectural principles of colorectal cancer
 
-A computational pipeline for analyzing spatial dynamics of tumor evolution in colorectal cancer using coalescent theory. This project processes whole exome sequencing (WES) data from TCGA and HCMI datasets to reconstruct coalescent trees, test for neutral evolution, and generate spatial representations of tumor lineage dynamics.
+A computational pipeline for analyzing spatial dynamics of tumor evolution in colorectal cancer using coalescent theory. This project processes whole exome sequencing (WXS) data from cumulated datasets to reconstruct coalescent trees, test for neutral evolution, and generate spatial representations of tumor lineage dynamics.
 
 ## Overview
 
@@ -31,14 +31,8 @@ conda activate thesis-coalescent
 
 ### Data Setup
 
-**Note**: This repository does not include MAF data files. Download data using the GDC Data Transfer Tool:
+**Note**: The somatic mutation information data has been downloaded from the GDC Data Portal using the data transfer tool and the included manifest file under snv maf. 
 
-```bash
-# Install GDC Data Transfer Tool (see https://gdc.cancer.gov/access-data/gdc-data-transfer-tool)
-gdc-client download -m data/gdc_download_20250829_170124.353372/MANIFEST.txt
-
-# Place downloaded .maf.gz files in data/snv maf/
-```
 
 ### Running the Pipeline
 
