@@ -538,7 +538,7 @@ def process_single_tree_for_spatial_mapping(maf_file, output_dir, coalescent_res
         # Extract patient UUID from file path
         patient_uuid = Path(maf_file).parent.name
         
-        # Step 1: Load MAF data
+        # Step 1: Load MAF data (needed for mutation mapping to lineages)
         mutations, error = load_maf_data(maf_file)
         if error:
             return {
@@ -547,6 +547,13 @@ def process_single_tree_for_spatial_mapping(maf_file, output_dir, coalescent_res
                 'maf_file': maf_file,
                 'error': error
             }
+        
+        # Validate mutation count matches saved coalescent tree if available
+        if coalescent_result is not None:
+            saved_n_mutations = coalescent_result.get('n_mutations', None)
+            if saved_n_mutations is not None and len(mutations) != saved_n_mutations:
+                print(f"  Warning: Mutation count mismatch (MAF={len(mutations)}, saved={saved_n_mutations})")
+                print(f"  Using saved tree structure with {saved_n_mutations} mutations")
         
         # Step 2: Use coalescent tree from saved results if available
         if coalescent_result is not None and 'coalescent_events' in coalescent_result:
@@ -583,9 +590,11 @@ def process_single_tree_for_spatial_mapping(maf_file, output_dir, coalescent_res
             
             # Step 3: Build coalescent tree structure using saved events
             # Use same seed to ensure deterministic lineage selection
+            # Use saved n_lineages to ensure tree structure matches original reconstruction
+            saved_n_lineages = coalescent_result.get('n_lineages', len(mutations))
             np.random.seed(random_seed)
             tree_structure, internal_nodes, leaf_nodes = build_coalescent_tree_structure(
-                coalescent_events, len(mutations))
+                coalescent_events, saved_n_lineages)
         else:
             # Fallback: regenerate coalescent process (for backward compatibility)
             # Use deterministic seed based on patient UUID for reproducibility

@@ -112,7 +112,7 @@ def create_individual_plot(maf_file, results, output_dir):
         # Create plot
         plt.figure(figsize=(10, 6))
         plt.scatter(subclonal_mutations['vaf'], subclonal_mutations['cumulative_mutations'], 
-                    alpha=0.6, s=50, label='Observed data')
+                    alpha=0.6, s=50)
         
         # Plot linear fit
         if results['r_squared'] is not None:
@@ -123,8 +123,7 @@ def create_individual_plot(maf_file, results, output_dir):
             x_fit = np.linspace(subclonal_mutations['vaf'].min(), 
                                subclonal_mutations['vaf'].max(), 100)
             y_fit = slope * x_fit + intercept
-            plt.plot(x_fit, y_fit, 'r-', linewidth=2, 
-                     label=f'Linear fit (R² = {results["r_squared"]:.4f})')
+            plt.plot(x_fit, y_fit, 'r-', linewidth=2)
         
         plt.xlabel('VAF (Variant Allele Frequency)')
         plt.ylabel('Cumulative Number of Mutations M(f)')
@@ -133,17 +132,7 @@ def create_individual_plot(maf_file, results, output_dir):
         patient_uuid = Path(maf_file).parent.name
         plt.title(f'Neutrality Test - Patient {patient_uuid}')
         
-        plt.legend()
         plt.grid(True, alpha=0.3)
-        
-        # Add neutrality assessment
-        status = "NEUTRAL" if results['is_neutral'] else "NON-NEUTRAL"
-        color = "green" if results['is_neutral'] else "red"
-        
-        plt.text(0.05, 0.95, f'Status: {status}\nR² = {results["r_squared"]:.4f}', 
-                 transform=plt.gca().transAxes, fontsize=12, 
-                 bbox=dict(boxstyle="round,pad=0.3", facecolor=color, alpha=0.3),
-                 verticalalignment='top')
         
         plt.tight_layout()
         
