@@ -78,7 +78,7 @@ results/
 ```
 thesis/
 ├── code/              # Pipeline scripts
-├── data/              # MAF data directory (not included in repo)
+├── data/              # MAF data directory 
 └── results/           # Analysis outputs
 ```
 
