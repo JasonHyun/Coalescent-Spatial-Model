@@ -88,10 +88,4 @@ thesis/
 └── results/           # Analysis outputs
 ```
 
-## Citation
 
-If you use this code, please cite the relevant methodology papers and datasets (TCGA, HCMI).
-
-## License
-
-[Specify license]
